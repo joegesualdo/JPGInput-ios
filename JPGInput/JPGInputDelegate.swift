@@ -1,5 +1,5 @@
 //
-//  JGInput.swift
+//  JPGInputDelegate.swift
 //  JPGInput
 //
 //  Created by Joe Gesualdo on 3/9/17.
@@ -8,3 +8,5 @@
 
 import UIKit
 
+class JPGInputDelegate {
+}

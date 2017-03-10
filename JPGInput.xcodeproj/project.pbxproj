@@ -11,7 +11,8 @@
 		453616BC1E722C5300D38025 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453616BB1E722C5300D38025 /* ViewController.swift */; };
 		453616C11E722C5300D38025 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 453616C01E722C5300D38025 /* Assets.xcassets */; };
 		453616C41E722C5300D38025 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 453616C21E722C5300D38025 /* LaunchScreen.storyboard */; };
-		453616CD1E7252FE00D38025 /* JGInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453616CC1E7252FE00D38025 /* JGInputView.swift */; };
+		453616CD1E7252FE00D38025 /* JPGInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453616CC1E7252FE00D38025 /* JPGInputView.swift */; };
+		453616D01E7254D800D38025 /* JPGInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453616CF1E7254D800D38025 /* JPGInputDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +22,8 @@
 		453616C01E722C5300D38025 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		453616C31E722C5300D38025 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		453616C51E722C5300D38025 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		453616CC1E7252FE00D38025 /* JGInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGInputView.swift; sourceTree = "<group>"; };
+		453616CC1E7252FE00D38025 /* JPGInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPGInputView.swift; sourceTree = "<group>"; };
+		453616CF1E7254D800D38025 /* JPGInputDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPGInputDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		453616B81E722C5300D38025 /* JPGInput */ = {
 			isa = PBXGroup;
 			children = (
+				453616CE1E7254BF00D38025 /* Models */,
 				453616CB1E7252DC00D38025 /* Views */,
 				453616B91E722C5300D38025 /* AppDelegate.swift */,
 				453616BB1E722C5300D38025 /* ViewController.swift */,
@@ -67,9 +70,17 @@
 		453616CB1E7252DC00D38025 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				453616CC1E7252FE00D38025 /* JGInputView.swift */,
+				453616CC1E7252FE00D38025 /* JPGInputView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		453616CE1E7254BF00D38025 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				453616CF1E7254D800D38025 /* JPGInputDelegate.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,8 +155,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				453616BC1E722C5300D38025 /* ViewController.swift in Sources */,
+				453616D01E7254D800D38025 /* JPGInputDelegate.swift in Sources */,
 				453616BA1E722C5300D38025 /* AppDelegate.swift in Sources */,
-				453616CD1E7252FE00D38025 /* JGInputView.swift in Sources */,
+				453616CD1E7252FE00D38025 /* JPGInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
