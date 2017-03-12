@@ -79,7 +79,7 @@ class JPGInput: UIView , UITextViewDelegate {
   func setupLayout() {
     customInputContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
     customInputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-    customInputContainer.widthAnchor.constraint(equalToConstant: 1000).isActive = true
+    customInputContainer.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
     customInputContainer.heightAnchor.constraint(equalToConstant: 30).isActive = true
     
     customInputView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 10).isActive = true

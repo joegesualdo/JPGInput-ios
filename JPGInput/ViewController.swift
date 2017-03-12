@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
     customInputContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
     customInputContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-    customInputContainer.widthAnchor.constraint(equalToConstant: 100000).isActive = true
+    customInputContainer.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     customInputContainer.heightAnchor.constraint(equalToConstant: 1000).isActive = true
     
 //    print(customInputContainer.topAnchor)
