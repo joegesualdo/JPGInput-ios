@@ -8,10 +8,10 @@
 
 import UIKit
 
-class JPGInput: UIView , UITextFieldDelegate {
+class JPGInput: UIView , UITextViewDelegate {
   
   var customInputContainer = UIView(frame: CGRect())
-  var customInputView = UITextField(frame: CGRect())
+  var customInputView = UITextView(frame: CGRect())
   var customInputView2 = UITextField(frame: CGRect())
   var inputPlaceholder = UILabel(frame: CGRect())
   var inputLabelView = UILabel(frame: CGRect())
@@ -32,6 +32,11 @@ class JPGInput: UIView , UITextFieldDelegate {
     customInputContainer.backgroundColor = UIColor.white
     
     customInputView.translatesAutoresizingMaskIntoConstraints = false;
+    // Start text view scrolled to the top
+    customInputView.scrollRangeToVisible(NSRange(location:0, length:0))
+    
+    customInputView.textContainer.maximumNumberOfLines = 1;
+    customInputView.layoutManager.textContainerChangedGeometry(customInputView.textContainer)
     // customInputView.layer.borderColor = UIColor.blue.cgColor
     // customInputView.layer.borderWidth = 1
     
@@ -61,21 +66,26 @@ class JPGInput: UIView , UITextFieldDelegate {
     self.addSubview(customInputView2)
     self.addSubview(inputPlaceholder)
     
+    setupLayout()
+  }
+  
+  func sizeOfString (string: String, constrainedToWidth width: Double, font: UIFont) -> CGSize {
+    return (string as NSString).boundingRect(with: CGSize(width: width, height: DBL_MAX),
+                                                     options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                     attributes: [NSFontAttributeName: font],
+                                                     context: nil).size
+  }
+  
+  func setupLayout() {
     customInputContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
     customInputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-    customInputContainer.widthAnchor.constraint(equalToConstant: 100).isActive = true
+    customInputContainer.widthAnchor.constraint(equalToConstant: 1000).isActive = true
     customInputContainer.heightAnchor.constraint(equalToConstant: 30).isActive = true
     
     customInputView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 10).isActive = true
     customInputView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
     customInputView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     customInputView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-    
-    customInputView2.topAnchor.constraint(equalTo: self.topAnchor, constant: 400).isActive = true
-    customInputView2.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-    customInputView2.widthAnchor.constraint(equalToConstant: 100).isActive = true
-    customInputView2.heightAnchor.constraint(equalToConstant: 60).isActive = true
-    
     
     inputLabelView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
     inputLabelView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
@@ -92,26 +102,37 @@ class JPGInput: UIView , UITextFieldDelegate {
     
     
     // Do any additional setup after loading the view, typically from a nib.
+    
   }
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    inputText = (inputText as NSString).replacingCharacters(in: range, with: string)
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    inputText = (inputText as NSString).replacingCharacters(in: range, with: text)
+    
+    // Makes an inputView act line a textField with only one line
+    var textWidth = UIEdgeInsetsInsetRect(textView.frame, textView.textContainerInset).width
+    textWidth -= 2.0 * textView.textContainer.lineFragmentPadding;
+    let boundingRect = sizeOfString(string: inputText, constrainedToWidth: Double(textWidth), font: textView.font!)
+    let numberOfLines = boundingRect.height / textView.font!.lineHeight;
+    //////////////////////////////////////////////////////////////
+    
     if (inputText.characters.count > 3) {
       inputError = true
     } else {
       inputError = false
     }
     inputLabelView.textColor = inputError ? UIColor.red : UIColor.black
-    return true
+    
+    return numberOfLines <= 1;
   }
-  func textFieldDidBeginEditing(_ textField: UITextField) {
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
     // customInputView.backgroundColor = UIColor.gray
     fadeOut(viewToFadeOut: self.inputPlaceholder)
     fadeIn(viewToFadeIn: inputLabelView)
   }
   
-  func textFieldDidEndEditing(_ textField: UITextField) {
+  func textViewDidEndEditing(_ textView: UITextView) {
     customInputView.backgroundColor = UIColor.clear
-    if ((textField.text?.characters.count)! < 1) {
+    if ((textView.text?.characters.count)! < 1) {
       fadeIn(viewToFadeIn: inputPlaceholder)
       fadeOut(viewToFadeOut: inputLabelView)
     }
