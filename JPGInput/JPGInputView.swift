@@ -20,8 +20,12 @@ class JPGInput: UIView , UITextViewDelegate {
   var label: String = ""
   var placeholder: String = ""
   
-  init(label: String, placeholder: String) {
-    super.init(frame: CGRect.zero)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
+  convenience init(label: String, placeholder: String) {
+    self.init(frame: CGRect.zero)
     self.label = label
     self.placeholder = placeholder
     setupViews()
