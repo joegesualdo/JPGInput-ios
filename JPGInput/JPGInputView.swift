@@ -17,9 +17,13 @@ class JPGInput: UIView , UITextViewDelegate {
   var inputLabelView = UILabel(frame: CGRect())
   var inputText = ""
   var inputError = false
+  var label: String = ""
+  var placeholder: String = ""
   
-  init() {
+  init(label: String, placeholder: String) {
     super.init(frame: CGRect.zero)
+    self.label = label
+    self.placeholder = placeholder
     setupViews()
   }
   
@@ -50,12 +54,12 @@ class JPGInput: UIView , UITextViewDelegate {
     inputLabelView.translatesAutoresizingMaskIntoConstraints = false;
     // inputLabelView.layer.borderColor = UIColor.red.cgColor
     // inputLabelView.layer.borderWidth = 1
-    inputLabelView.text = "Label"
+    inputLabelView.text = self.label
     inputLabelView.alpha = 0.0
     inputLabelView.font = UIFont.boldSystemFont(ofSize: 8)
     
     inputPlaceholder.translatesAutoresizingMaskIntoConstraints = false;
-    inputPlaceholder.text = "Label"
+    inputPlaceholder.text = self.placeholder
     inputPlaceholder.font = UIFont.boldSystemFont(ofSize: 12)
     inputPlaceholder.textColor = UIColor.init(colorLiteralRed: 0.757, green: 0.757, blue: 0.757, alpha: 1.00)
     
@@ -66,17 +70,6 @@ class JPGInput: UIView , UITextViewDelegate {
     self.addSubview(customInputView2)
     self.addSubview(inputPlaceholder)
     
-    setupLayout()
-  }
-  
-  func sizeOfString (string: String, constrainedToWidth width: Double, font: UIFont) -> CGSize {
-    return (string as NSString).boundingRect(with: CGSize(width: width, height: DBL_MAX),
-                                                     options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                     attributes: [NSFontAttributeName: font],
-                                                     context: nil).size
-  }
-  
-  func setupLayout() {
     customInputContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
     customInputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
     customInputContainer.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
@@ -88,12 +81,12 @@ class JPGInput: UIView , UITextViewDelegate {
     customInputView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     
     inputLabelView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
-    inputLabelView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
+    inputLabelView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputLabelView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputLabelView.heightAnchor.constraint(equalToConstant: 10).isActive = true
     
    inputPlaceholder.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
-   inputPlaceholder.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
+   inputPlaceholder.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputPlaceholder.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputPlaceholder.heightAnchor.constraint(equalTo: customInputContainer.heightAnchor, constant: 0).isActive = true
     // inputView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
@@ -102,8 +95,15 @@ class JPGInput: UIView , UITextViewDelegate {
     
     
     // Do any additional setup after loading the view, typically from a nib.
-    
   }
+  
+  func sizeOfString (string: String, constrainedToWidth width: Double, font: UIFont) -> CGSize {
+    return (string as NSString).boundingRect(with: CGSize(width: width, height: DBL_MAX),
+                                                     options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                     attributes: [NSFontAttributeName: font],
+                                                     context: nil).size
+  }
+  
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     inputText = (inputText as NSString).replacingCharacters(in: range, with: text)
     
