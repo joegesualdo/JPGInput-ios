@@ -24,7 +24,7 @@ public class JPGInput: UIView , UITextViewDelegate {
     super.init(frame: frame)
   }
   
-  convenience init(label: String, placeholder: String) {
+  convenience public init(label: String, placeholder: String) {
     self.init(frame: CGRect.zero)
     self.label = label
     self.placeholder = placeholder
