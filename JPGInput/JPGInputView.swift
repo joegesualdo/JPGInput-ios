@@ -8,7 +8,7 @@
 
 import UIKit
 
-class JPGInput: UIView , UITextViewDelegate {
+public class JPGInput: UIView , UITextViewDelegate {
   
   var customInputContainer = UIView(frame: CGRect())
   var customInputView = UITextView(frame: CGRect())
@@ -31,7 +31,7 @@ class JPGInput: UIView , UITextViewDelegate {
     setupViews()
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -108,7 +108,7 @@ class JPGInput: UIView , UITextViewDelegate {
                                                      context: nil).size
   }
   
-  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+  public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     inputText = (inputText as NSString).replacingCharacters(in: range, with: text)
     
     // Makes an inputView act line a textField with only one line
@@ -128,13 +128,13 @@ class JPGInput: UIView , UITextViewDelegate {
     return numberOfLines <= 1;
   }
   
-  func textViewDidBeginEditing(_ textView: UITextView) {
+  public func textViewDidBeginEditing(_ textView: UITextView) {
     // customInputView.backgroundColor = UIColor.gray
     fadeOut(viewToFadeOut: self.inputPlaceholder)
     fadeIn(viewToFadeIn: inputLabelView)
   }
   
-  func textViewDidEndEditing(_ textView: UITextView) {
+  public func textViewDidEndEditing(_ textView: UITextView) {
     customInputView.backgroundColor = UIColor.clear
     if ((textView.text?.characters.count)! < 1) {
       fadeIn(viewToFadeIn: inputPlaceholder)
