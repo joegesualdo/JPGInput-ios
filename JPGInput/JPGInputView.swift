@@ -37,11 +37,12 @@ public class JPGInput: UIView , UITextViewDelegate {
   
   func setupViews() {
     customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
-    customInputContainer.backgroundColor = UIColor.white
+    customInputContainer.backgroundColor = UIColor.clear
     
     customInputView.translatesAutoresizingMaskIntoConstraints = false;
     // Start text view scrolled to the top
     customInputView.scrollRangeToVisible(NSRange(location:0, length:0))
+    customInputView.backgroundColor = UIColor.clear
     
     customInputView.textContainer.maximumNumberOfLines = 1;
     customInputView.layoutManager.textContainerChangedGeometry(customInputView.textContainer)
@@ -49,7 +50,7 @@ public class JPGInput: UIView , UITextViewDelegate {
     // customInputView.layer.borderWidth = 1
     
     customInputView.delegate = self
-    customInputView.font = UIFont.boldSystemFont(ofSize: 10)
+    customInputView.font = UIFont(name: "Roboto-Regular", size: 12)
     
     customInputView2.translatesAutoresizingMaskIntoConstraints = false;
     customInputView2.layer.borderColor = UIColor.blue.cgColor
@@ -60,14 +61,15 @@ public class JPGInput: UIView , UITextViewDelegate {
     // inputLabelView.layer.borderWidth = 1
     inputLabelView.text = self.label
     inputLabelView.alpha = 0.0
-    inputLabelView.font = UIFont.boldSystemFont(ofSize: 8)
+    inputLabelView.font = UIFont(name: "Roboto-Regular", size: 8)
+    inputLabelView.backgroundColor = UIColor.clear
     
     inputPlaceholder.translatesAutoresizingMaskIntoConstraints = false;
     inputPlaceholder.text = self.placeholder
-    inputPlaceholder.font = UIFont.boldSystemFont(ofSize: 12)
+    inputPlaceholder.font = UIFont(name: "Roboto-Regular", size: 12)
     inputPlaceholder.textColor = UIColor.init(colorLiteralRed: 0.757, green: 0.757, blue: 0.757, alpha: 1.00)
+    inputPlaceholder.backgroundColor = UIColor.clear
     
-    self.backgroundColor = UIColor.magenta
     self.addSubview(customInputContainer)
     self.addSubview(customInputView)
     self.addSubview(inputLabelView)

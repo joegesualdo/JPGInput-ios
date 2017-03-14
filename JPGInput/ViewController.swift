@@ -10,47 +10,50 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+  let formContainer = UIView(frame: CGRect())
   var customInputContainer = UIView(frame: CGRect())
-  let jginput = JPGInput(label: "First Name", placeholder: "What's your first name")
+  let jginput = JPGInput(label: "First name", placeholder: "First name")
   var customInputContainer2 = UIView(frame: CGRect())
-  let jginput2 = JPGInput(label: "Last Name", placeholder: "What's your last name")
+  let jginput2 = JPGInput(label: "Last name", placeholder: "Last name")
   
   override func viewDidLoad() {
+    let formMargin = 10.0
+    let borderWidth = 0.5
+    let formWidth = view.frame.size.width - CGFloat(formMargin * 2)
+    let inputWidth = formWidth - CGFloat(borderWidth * 2)
+    
     super.viewDidLoad()
-    view.backgroundColor = UIColor.green
+    view.backgroundColor = UIColor.init(colorLiteralRed: 0.965, green: 0.965, blue: 0.965, alpha: 1.00)
     
-    customInputContainer.backgroundColor = UIColor.yellow
+    formContainer.layer.borderColor = UIColor.init(colorLiteralRed: 0.627, green: 0.627, blue: 0.627, alpha: 1.00).cgColor
+    formContainer.layer.borderWidth = CGFloat(borderWidth)
+    formContainer.layer.cornerRadius = 2
+    formContainer.backgroundColor = UIColor.white
     
-    jginput.backgroundColor = UIColor.blue
-    view.addSubview(customInputContainer)
-    view.addSubview(customInputContainer2)
+    view.addSubview(formContainer)
+//    view.addSubview(customInputContainer2)
     view.addSubview(jginput)
     view.addSubview(jginput2)
     
-    customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
-    customInputContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
-    customInputContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-    customInputContainer.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    customInputContainer.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    
-    customInputContainer2.translatesAutoresizingMaskIntoConstraints = false;
-    customInputContainer2.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
-    customInputContainer2.leftAnchor.constraint(equalTo: customInputContainer.rightAnchor, constant: 0).isActive = true
-    customInputContainer2.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    customInputContainer2.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    formContainer.translatesAutoresizingMaskIntoConstraints = false;
+    formContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+    formContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: CGFloat(formMargin)).isActive = true
+//    formContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
+    formContainer.widthAnchor.constraint(equalToConstant: formWidth).isActive = true
+    formContainer.heightAnchor.constraint(equalToConstant: 60 + CGFloat(borderWidth * 2)).isActive = true
     
 //    print(customInputContainer.topAnchor)
     jginput.translatesAutoresizingMaskIntoConstraints = false;
-    jginput.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
-    jginput.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
-    jginput.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor).isActive = true
-    jginput.heightAnchor.constraint(equalTo: customInputContainer.heightAnchor).isActive = true
-    
+    jginput.topAnchor.constraint(equalTo: formContainer.topAnchor, constant: CGFloat(borderWidth)).isActive = true
+    jginput.leftAnchor.constraint(equalTo: formContainer.leftAnchor, constant: CGFloat(borderWidth)).isActive = true
+    jginput.widthAnchor.constraint(equalToConstant: inputWidth).isActive = true
+    jginput.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//    
     jginput2.translatesAutoresizingMaskIntoConstraints = false;
-    jginput2.topAnchor.constraint(equalTo: customInputContainer2.topAnchor, constant: 0).isActive = true
-    jginput2.leftAnchor.constraint(equalTo: customInputContainer2.leftAnchor, constant: 0).isActive = true
-    jginput2.widthAnchor.constraint(equalTo: customInputContainer2.widthAnchor).isActive = true
-    jginput2.heightAnchor.constraint(equalTo: customInputContainer2.heightAnchor).isActive = true
+    jginput2.topAnchor.constraint(equalTo: jginput.bottomAnchor, constant: 0).isActive = true
+    jginput2.leftAnchor.constraint(equalTo: formContainer.leftAnchor, constant: CGFloat(borderWidth)).isActive = true
+    jginput2.widthAnchor.constraint(equalToConstant: inputWidth).isActive = true
+    jginput2.heightAnchor.constraint(equalToConstant: 30).isActive = true
     
     
   }
