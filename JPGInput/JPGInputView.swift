@@ -8,10 +8,10 @@
 
 import UIKit
 
-public class JPGInput: UIView , UITextViewDelegate {
+public class JPGInput: UIView , UITextFieldDelegate {
   
   var customInputContainer = UIView(frame: CGRect())
-  var customInputView = UITextView(frame: CGRect())
+  var customInputView = UITextField(frame: CGRect())
   var customInputView2 = UITextField(frame: CGRect())
   var inputPlaceholder = UILabel(frame: CGRect())
   var inputLabelView = UILabel(frame: CGRect())
@@ -41,11 +41,8 @@ public class JPGInput: UIView , UITextViewDelegate {
     
     customInputView.translatesAutoresizingMaskIntoConstraints = false;
     // Start text view scrolled to the top
-    customInputView.scrollRangeToVisible(NSRange(location:0, length:0))
     customInputView.backgroundColor = UIColor.clear
     
-    customInputView.textContainer.maximumNumberOfLines = 1;
-    customInputView.layoutManager.textContainerChangedGeometry(customInputView.textContainer)
     // customInputView.layer.borderColor = UIColor.blue.cgColor
     // customInputView.layer.borderWidth = 1
     
@@ -82,11 +79,11 @@ public class JPGInput: UIView , UITextViewDelegate {
     customInputContainer.heightAnchor.constraint(equalToConstant: 30).isActive = true
     
     customInputView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 10).isActive = true
-    customInputView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 0).isActive = true
+    customInputView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     customInputView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     customInputView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     
-    inputLabelView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
+    inputLabelView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 2).isActive = true
     inputLabelView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputLabelView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputLabelView.heightAnchor.constraint(equalToConstant: 10).isActive = true
@@ -110,15 +107,8 @@ public class JPGInput: UIView , UITextViewDelegate {
                                                      context: nil).size
   }
   
-  public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-    inputText = (inputText as NSString).replacingCharacters(in: range, with: text)
-    
-    // Makes an inputView act line a textField with only one line
-    var textWidth = UIEdgeInsetsInsetRect(textView.frame, textView.textContainerInset).width
-    textWidth -= 2.0 * textView.textContainer.lineFragmentPadding;
-    let boundingRect = sizeOfString(string: inputText, constrainedToWidth: Double(textWidth), font: textView.font!)
-    let numberOfLines = boundingRect.height / textView.font!.lineHeight;
-    //////////////////////////////////////////////////////////////
+  public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    inputText = (inputText as NSString).replacingCharacters(in: range, with: string)
     
     if (inputText.characters.count > 3) {
       inputError = true
@@ -127,18 +117,18 @@ public class JPGInput: UIView , UITextViewDelegate {
     }
     inputLabelView.textColor = inputError ? UIColor.red : UIColor.black
     
-    return numberOfLines <= 1;
+    return true
   }
   
-  public func textViewDidBeginEditing(_ textView: UITextView) {
+  public func textFieldDidBeginEditing(_ textField: UITextField) {
     // customInputView.backgroundColor = UIColor.gray
     fadeOut(viewToFadeOut: self.inputPlaceholder)
     fadeIn(viewToFadeIn: inputLabelView)
   }
   
-  public func textViewDidEndEditing(_ textView: UITextView) {
+  public func textFieldDidEndEditing(_ textField: UITextField) {
     customInputView.backgroundColor = UIColor.clear
-    if ((textView.text?.characters.count)! < 1) {
+    if ((textField.text?.characters.count)! < 1) {
       fadeIn(viewToFadeIn: inputPlaceholder)
       fadeOut(viewToFadeOut: inputLabelView)
     }
