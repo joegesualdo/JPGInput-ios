@@ -2,8 +2,8 @@
 > A Fancy iOS input
 
 ## Install
-```Swift
-// Podfile
+```ruby
+# Podfile
 pod 'JPGInput', '~> 0.1.5'
 ```
 
