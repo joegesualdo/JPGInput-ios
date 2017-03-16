@@ -10,13 +10,12 @@ import UIKit
 
 public class JPGInput: UIView , UITextFieldDelegate {
   
-  var customInputContainer = UIView(frame: CGRect())
-  var customInputView = UITextField(frame: CGRect())
-  var customInputView2 = UITextField(frame: CGRect())
-  var inputPlaceholder = UILabel(frame: CGRect())
-  var inputLabelView = UILabel(frame: CGRect())
-  var inputText = ""
-  var inputError = false
+  var customInputContainer: UIView = UIView(frame: CGRect.zero)
+  var customInputView: UITextField = UITextField(frame: CGRect.zero)
+  var inputPlaceholder: UILabel = UILabel(frame: CGRect.zero)
+  var inputLabelView: UILabel = UILabel(frame: CGRect.zero)
+  var inputText: String = ""
+  var inputError: Bool = false
   var label: String = ""
   var placeholder: String = ""
   
@@ -26,8 +25,17 @@ public class JPGInput: UIView , UITextFieldDelegate {
   
   convenience public init(label: String, placeholder: String) {
     self.init(frame: CGRect.zero)
+    self.label = ""
     self.label = label
+    self.inputText = ""
+    self.placeholder = ""
+    self.inputError = false
     self.placeholder = placeholder
+    self.customInputContainer = UIView(frame: CGRect.zero)
+    self.customInputView = UITextField(frame: CGRect.zero)
+    self.inputPlaceholder = UILabel(frame: CGRect.zero)
+    self.inputLabelView = UILabel(frame: CGRect.zero)
+    
     setupViews()
   }
   
@@ -36,32 +44,17 @@ public class JPGInput: UIView , UITextFieldDelegate {
   }
   
   func setupViews() {
-    customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
     customInputContainer.backgroundColor = UIColor.clear
     
-    customInputView.translatesAutoresizingMaskIntoConstraints = false;
-    // Start text view scrolled to the top
-    customInputView.backgroundColor = UIColor.clear
-    
-    // customInputView.layer.borderColor = UIColor.blue.cgColor
-    // customInputView.layer.borderWidth = 1
-    
     customInputView.delegate = self
+    customInputView.backgroundColor = UIColor.clear
     customInputView.font = UIFont(name: "Roboto-Regular", size: 12)
     
-    customInputView2.translatesAutoresizingMaskIntoConstraints = false;
-    customInputView2.layer.borderColor = UIColor.blue.cgColor
-    customInputView2.layer.borderWidth = 1
-    
-    inputLabelView.translatesAutoresizingMaskIntoConstraints = false;
-    // inputLabelView.layer.borderColor = UIColor.red.cgColor
-    // inputLabelView.layer.borderWidth = 1
-    inputLabelView.text = self.label
     inputLabelView.alpha = 0.0
-    inputLabelView.font = UIFont(name: "Roboto-Regular", size: 8)
+    inputLabelView.text = self.label
     inputLabelView.backgroundColor = UIColor.clear
+    inputLabelView.font = UIFont(name: "Roboto-Regular", size: 8)
     
-    inputPlaceholder.translatesAutoresizingMaskIntoConstraints = false;
     inputPlaceholder.text = self.placeholder
     inputPlaceholder.font = UIFont(name: "Roboto-Regular", size: 12)
     inputPlaceholder.textColor = UIColor.init(colorLiteralRed: 0.757, green: 0.757, blue: 0.757, alpha: 1.00)
@@ -70,64 +63,48 @@ public class JPGInput: UIView , UITextFieldDelegate {
     self.addSubview(customInputContainer)
     self.addSubview(customInputView)
     self.addSubview(inputLabelView)
-    self.addSubview(customInputView2)
     self.addSubview(inputPlaceholder)
     
+    customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
     customInputContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
     customInputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
     customInputContainer.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
     customInputContainer.heightAnchor.constraint(equalToConstant: 30).isActive = true
     
+    customInputView.translatesAutoresizingMaskIntoConstraints = false;
     customInputView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 10).isActive = true
     customInputView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     customInputView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     customInputView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     
+    inputLabelView.translatesAutoresizingMaskIntoConstraints = false;
     inputLabelView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 2).isActive = true
     inputLabelView.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputLabelView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputLabelView.heightAnchor.constraint(equalToConstant: 10).isActive = true
     
-   inputPlaceholder.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
-   inputPlaceholder.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
+    inputPlaceholder.translatesAutoresizingMaskIntoConstraints = false;
+    inputPlaceholder.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
+    inputPlaceholder.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputPlaceholder.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputPlaceholder.heightAnchor.constraint(equalTo: customInputContainer.heightAnchor, constant: 0).isActive = true
-    // inputView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
-    // inputView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
-    
-    
-    
-    // Do any additional setup after loading the view, typically from a nib.
-  }
-  
-  func sizeOfString (string: String, constrainedToWidth width: Double, font: UIFont) -> CGSize {
-    return (string as NSString).boundingRect(with: CGSize(width: width, height: DBL_MAX),
-                                                     options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                     attributes: [NSFontAttributeName: font],
-                                                     context: nil).size
   }
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     inputText = (inputText as NSString).replacingCharacters(in: range, with: string)
     
-    if (inputText.characters.count > 3) {
-      inputError = true
-    } else {
-      inputError = false
-    }
+    self.inputError = inputText.characters.count > 3
     inputLabelView.textColor = inputError ? UIColor.red : UIColor.black
     
     return true
   }
   
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    // customInputView.backgroundColor = UIColor.gray
     fadeOut(viewToFadeOut: self.inputPlaceholder)
     fadeIn(viewToFadeIn: inputLabelView)
   }
   
   public func textFieldDidEndEditing(_ textField: UITextField) {
-    customInputView.backgroundColor = UIColor.clear
     if ((textField.text?.characters.count)! < 1) {
       fadeIn(viewToFadeIn: inputPlaceholder)
       fadeOut(viewToFadeOut: inputLabelView)
@@ -136,22 +113,35 @@ public class JPGInput: UIView , UITextFieldDelegate {
   
   func fadeOut(viewToFadeOut: UIView){
     // Move our fade out code from earlier
-    UIView.animate(withDuration: 0.5, delay: 0.0, options: .transitionCurlUp, animations: {
-    viewToFadeOut.alpha = 0.0
-    }, completion: {
-    finished in
-    
-    if finished {
-      print("finished fading out")
-    }
-    })
+    UIView.animate(
+      withDuration: 0.5,
+      delay: 0.0,
+      options: .transitionCurlUp,
+      animations: {
+       viewToFadeOut.alpha = 0.0
+      },
+      completion: { finished in
+        if finished {
+          print("finished fading out")
+        }
+      }
+    )
   
   }
   
   func fadeIn(viewToFadeIn: UIView) {
-    UIView.animate(withDuration: 0.5, delay: 0.0, options: .transitionCurlDown, animations: {
-    viewToFadeIn.alpha = 1.0
-    }, completion: nil)
-    
+    UIView.animate(
+      withDuration: 0.5,
+      delay: 0.0,
+      options: .transitionCurlDown,
+      animations: {
+        viewToFadeIn.alpha = 1.0
+      },
+      completion: { finished in
+        if finished {
+          print("finished fading in")
+        }
+      }
+    )
   }
 }

@@ -54,8 +54,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     jginput2.leftAnchor.constraint(equalTo: formContainer.leftAnchor, constant: CGFloat(borderWidth)).isActive = true
     jginput2.widthAnchor.constraint(equalToConstant: inputWidth).isActive = true
     jginput2.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    
-    
   }
   
   override func didReceiveMemoryWarning() {
