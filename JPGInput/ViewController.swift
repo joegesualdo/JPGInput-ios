@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, JPGInputDelegate {
 
   let formContainer = UIView(frame: CGRect())
   var customInputContainer = UIView(frame: CGRect())
@@ -17,6 +17,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
   let jginput2 = JPGInput(label: "Last name", placeholder: "Last name")
   
   override func viewDidLoad() {
+    jginput.delegate = self
+    jginput2.delegate = self
     let formMargin = 10.0
     let borderWidth = 0.5
     let formWidth = view.frame.size.width - CGFloat(formMargin * 2)
@@ -60,6 +62,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
+  
+  public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    return true
+  }
+  
+  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    print("yup")
+    return true
+  }
+  public func textFieldDidBeginEditing(_ textField: UITextField) {
+    print("begin")
+  }
+  
+  public func textFieldDidEndEditing(_ textField: UITextField) {
+    print("end")
+  }
+  
+  func textFieldIsValid(_ textField: UITextField) -> Bool {
+    print("BROOOOOOO")
+    return false
+  }
+  
 
 
 }
