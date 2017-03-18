@@ -66,13 +66,34 @@ class ViewController: UIViewController, JPGInputDelegate {
   }
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    var isValid: Bool = true;
+    var errorMessage: String = ""
+    let lengthOfNewString: Int = string == "" ? (textField.text?.characters.count)! - 1 : (textField.text?.characters.count)! + 1
     
     switch textField.tag {
     case jginput.tag:
       (jginput.text as NSString).replacingCharacters(in: range, with: string)
+      isValid = lengthOfNewString <= 3
+      if (isValid) {
+        jginput.isValid = true
+        jginput.errorText = ""
+      } else {
+        jginput.isValid = false
+        errorMessage = "Email is not valid"
+        jginput.errorText = errorMessage;
+      }
       return true
     case jginput2.tag:
       (jginput2.text as NSString).replacingCharacters(in: range, with: string)
+      isValid = lengthOfNewString <= 3
+      if (isValid) {
+        jginput2.isValid = true
+        jginput2.errorText = ""
+      }else{
+        jginput2.isValid = false
+        errorMessage = "Email is not valid"
+        jginput2.errorText = errorMessage;
+      }
       return true
     default:
       return true
@@ -83,16 +104,24 @@ class ViewController: UIViewController, JPGInputDelegate {
     return true
   }
   public func textFieldDidBeginEditing(_ textField: UITextField) {
+    switch textField.tag {
+    case jginput.tag:
+      jginput.labelColor = UIColor.init(colorLiteralRed: 0.086, green: 0.451, blue: 0.902, alpha: 1.00)
+    case jginput2.tag:
+      jginput2.labelColor = UIColor.init(colorLiteralRed: 0.086, green: 0.451, blue: 0.902, alpha: 1.00)
+    default: break
+    }
+    
   }
   
   public func textFieldDidEndEditing(_ textField: UITextField) {
+    switch textField.tag {
+    case jginput.tag:
+      jginput.labelColor = UIColor.gray
+    case jginput2.tag:
+      jginput2.labelColor = UIColor.gray
+    default: break
+    }
   }
-  
-  func textFieldIsValid(_ textField: UITextField) -> Bool {
-    return (textField.text?.characters.count)! < 3
-  }
-  
-
-
 }
 

@@ -14,17 +14,38 @@ public class JPGInput: UIView , UITextFieldDelegate {
   private var customInputView: UITextField
   private var inputPlaceholder: UILabel
   private var inputLabelView: UILabel
+  private var inputErrorView: UILabel
   private var label: String
+  private var inputLabelViewColor: UIColor
   private var placeholder: String
-  private var error: Bool
+  private var hasError: Bool
   private var inputTag: Int
-  var hasError: Bool {
+  private var errorInputViewText: String
+  var labelColor: UIColor {
     get {
-      return error
+      return inputLabelViewColor;
+    }
+    set(newLabelColor) {
+      inputLabelViewColor = newLabelColor
+      inputLabelView.textColor = inputLabelViewColor
+    }
+  }
+  var errorText: String {
+    get {
+      return errorInputViewText;
+    }
+    set(newErrorText) {
+      errorInputViewText = newErrorText
+      inputErrorView.text = errorInputViewText
+    }
+  }
+  var isValid: Bool {
+    get {
+      return !hasError
     }
     set(newError) {
-      error = newError
-      inputLabelView.textColor = error ? UIColor.red : UIColor.black
+      hasError = newError
+//      inputLabelView.textColor = error ? UIColor.red : UIColor.black
     }
   }
   override public var tag: Int {
@@ -53,10 +74,13 @@ public class JPGInput: UIView , UITextFieldDelegate {
     self.customInputView = UITextField(frame: CGRect.zero)
     self.inputPlaceholder = UILabel(frame: CGRect.zero)
     self.inputLabelView = UILabel(frame: CGRect.zero)
+    self.inputErrorView = UILabel(frame: CGRect.zero)
     
     self.label = label
-    self.error = false
+    self.hasError = false
     self.inputTag = customInputView.tag
+    self.inputLabelViewColor = UIColor.gray
+    self.errorInputViewText = ""
     self.placeholder = placeholder
     
     super.init(frame: CGRect.zero)
@@ -79,6 +103,10 @@ public class JPGInput: UIView , UITextFieldDelegate {
     inputLabelView.text = self.label
     inputLabelView.backgroundColor = UIColor.clear
     inputLabelView.font = UIFont(name: "Roboto-Regular", size: 8)
+    inputLabelView.textColor = labelColor
+    
+    inputErrorView.textColor = UIColor.red
+    inputErrorView.font = UIFont(name: "Roboto-Regular", size: 8)
     
     inputPlaceholder.text = self.placeholder
     inputPlaceholder.font = UIFont(name: "Roboto-Regular", size: 12)
@@ -88,6 +116,7 @@ public class JPGInput: UIView , UITextFieldDelegate {
     self.addSubview(customInputContainer)
     self.addSubview(customInputView)
     self.addSubview(inputLabelView)
+    self.addSubview(inputErrorView)
     self.addSubview(inputPlaceholder)
     
     customInputContainer.translatesAutoresizingMaskIntoConstraints = false;
@@ -108,11 +137,20 @@ public class JPGInput: UIView , UITextFieldDelegate {
     inputLabelView.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputLabelView.heightAnchor.constraint(equalToConstant: 10).isActive = true
     
+    setupInputViewConstraints()
+    
     inputPlaceholder.translatesAutoresizingMaskIntoConstraints = false;
     inputPlaceholder.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 0).isActive = true
     inputPlaceholder.leftAnchor.constraint(equalTo: customInputContainer.leftAnchor, constant: 5).isActive = true
     inputPlaceholder.widthAnchor.constraint(equalTo: customInputContainer.widthAnchor, constant: 0).isActive = true
     inputPlaceholder.heightAnchor.constraint(equalTo: customInputContainer.heightAnchor, constant: 0).isActive = true
+  }
+  
+  func setupInputViewConstraints() {
+    inputErrorView.translatesAutoresizingMaskIntoConstraints = false;
+    inputErrorView.topAnchor.constraint(equalTo: customInputContainer.topAnchor, constant: 2).isActive = true
+    inputErrorView.rightAnchor.constraint(equalTo: customInputContainer.rightAnchor, constant: -5).isActive = true
+    inputErrorView.heightAnchor.constraint(equalToConstant: 10).isActive = true
   }
   
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -166,7 +204,6 @@ public class JPGInput: UIView , UITextFieldDelegate {
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     if let delegate = self.delegate {
-      self.hasError = !delegate.textFieldIsValid(textField)
       if delegate.responds(to: #selector(UITextFieldDelegate.textField(_:shouldChangeCharactersIn:replacementString:))) {
         return delegate.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
       }
@@ -191,7 +228,6 @@ public class JPGInput: UIView , UITextFieldDelegate {
       },
       completion: { finished in
         if finished {
-          print("finished fading out")
         }
       }
     )
@@ -208,7 +244,6 @@ public class JPGInput: UIView , UITextFieldDelegate {
       },
       completion: { finished in
         if finished {
-          print("finished fading in")
         }
       }
     )

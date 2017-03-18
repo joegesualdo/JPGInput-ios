@@ -10,5 +10,4 @@ import Foundation
 import UIKit
 
 protocol JPGInputDelegate: UITextFieldDelegate {
-  func textFieldIsValid(_ textField: UITextField) -> Bool
 }
