@@ -9,13 +9,15 @@
 import UIKit
 
 public class JPGInput: UIView , UITextFieldDelegate {
-  
   var delegate: JPGInputDelegate?
-  var customInputContainer: UIView = UIView(frame: CGRect.zero)
-  var customInputView: UITextField = UITextField(frame: CGRect.zero)
-  var inputPlaceholder: UILabel = UILabel(frame: CGRect.zero)
-  var inputLabelView: UILabel = UILabel(frame: CGRect.zero)
-  var error: Bool = false
+  private var customInputContainer: UIView
+  private var customInputView: UITextField
+  private var inputPlaceholder: UILabel
+  private var inputLabelView: UILabel
+  private var label: String
+  private var placeholder: String
+  private var error: Bool
+  private var inputTag: Int
   var hasError: Bool {
     get {
       return error
@@ -25,8 +27,15 @@ public class JPGInput: UIView , UITextFieldDelegate {
       inputLabelView.textColor = error ? UIColor.red : UIColor.black
     }
   }
-  var label: String = ""
-  var placeholder: String = ""
+  override public var tag: Int {
+    get {
+      return inputTag
+    }
+    set(newTag) {
+      inputTag = newTag
+      customInputView.tag = newTag
+    }
+  }
   var text: String {
     get {
       if let text = customInputView.text {
@@ -39,22 +48,18 @@ public class JPGInput: UIView , UITextFieldDelegate {
     }
   }
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-  
-  convenience public init(label: String, placeholder: String) {
-    self.init(frame: CGRect.zero)
-    self.label = ""
-    self.label = label
-    self.text = ""
-    self.placeholder = ""
-    self.hasError = false
-    self.placeholder = placeholder
+  public init(label: String, placeholder: String) {
     self.customInputContainer = UIView(frame: CGRect.zero)
     self.customInputView = UITextField(frame: CGRect.zero)
     self.inputPlaceholder = UILabel(frame: CGRect.zero)
     self.inputLabelView = UILabel(frame: CGRect.zero)
+    
+    self.label = label
+    self.error = false
+    self.inputTag = customInputView.tag
+    self.placeholder = placeholder
+    
+    super.init(frame: CGRect.zero)
     
     setupViews()
   }
@@ -167,7 +172,6 @@ public class JPGInput: UIView , UITextFieldDelegate {
       }
       // We don't check for the selector here because textFieldIsValid is required
     }
-    print("nothin")
     return true;
     
 //    text = (text as NSString).replacingCharacters(in: range, with: string)

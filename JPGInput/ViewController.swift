@@ -18,7 +18,9 @@ class ViewController: UIViewController, JPGInputDelegate {
   
   override func viewDidLoad() {
     jginput.delegate = self
+    jginput.tag = 0
     jginput2.delegate = self
+    jginput2.tag = 1
     let formMargin = 10.0
     let borderWidth = 0.5
     let formWidth = view.frame.size.width - CGFloat(formMargin * 2)
@@ -65,9 +67,16 @@ class ViewController: UIViewController, JPGInputDelegate {
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     
-    (jginput.text as NSString).replacingCharacters(in: range, with: string)
-    
-    return true
+    switch textField.tag {
+    case jginput.tag:
+      (jginput.text as NSString).replacingCharacters(in: range, with: string)
+      return true
+    case jginput2.tag:
+      (jginput2.text as NSString).replacingCharacters(in: range, with: string)
+      return true
+    default:
+      return true
+    }
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
