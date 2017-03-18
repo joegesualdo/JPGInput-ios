@@ -64,24 +64,23 @@ class ViewController: UIViewController, JPGInputDelegate {
   }
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+    (jginput.text as NSString).replacingCharacters(in: range, with: string)
+    
     return true
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    print("yup")
     return true
   }
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    print("begin")
   }
   
   public func textFieldDidEndEditing(_ textField: UITextField) {
-    print("end")
   }
   
   func textFieldIsValid(_ textField: UITextField) -> Bool {
-    print("BROOOOOOO")
-    return false
+    return (textField.text?.characters.count)! < 3
   }
   
 

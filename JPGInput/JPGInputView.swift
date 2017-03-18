@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol JPGInputDelegate: UITextFieldDelegate {
-  func textFieldIsValid(_ textField: UITextField) -> Bool
-}
-
 public class JPGInput: UIView , UITextFieldDelegate {
   
   var delegate: JPGInputDelegate?
@@ -19,10 +15,29 @@ public class JPGInput: UIView , UITextFieldDelegate {
   var customInputView: UITextField = UITextField(frame: CGRect.zero)
   var inputPlaceholder: UILabel = UILabel(frame: CGRect.zero)
   var inputLabelView: UILabel = UILabel(frame: CGRect.zero)
-  var inputText: String = ""
-  var inputError: Bool = false
+  var error: Bool = false
+  var hasError: Bool {
+    get {
+      return error
+    }
+    set(newError) {
+      error = newError
+      inputLabelView.textColor = error ? UIColor.red : UIColor.black
+    }
+  }
   var label: String = ""
   var placeholder: String = ""
+  var text: String {
+    get {
+      if let text = customInputView.text {
+        return text
+      }
+      return ""
+    }
+    set(newText) {
+      customInputView.text = newText
+    }
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -32,9 +47,9 @@ public class JPGInput: UIView , UITextFieldDelegate {
     self.init(frame: CGRect.zero)
     self.label = ""
     self.label = label
-    self.inputText = ""
+    self.text = ""
     self.placeholder = ""
-    self.inputError = false
+    self.hasError = false
     self.placeholder = placeholder
     self.customInputContainer = UIView(frame: CGRect.zero)
     self.customInputView = UITextField(frame: CGRect.zero)
@@ -96,9 +111,9 @@ public class JPGInput: UIView , UITextFieldDelegate {
   }
   
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    if let del = self.delegate {
-      if del.responds(to: #selector(UITextFieldDelegate.textFieldShouldBeginEditing(_:))) {
-        return del.textFieldShouldBeginEditing!(textField)
+    if let delegate = self.delegate {
+      if delegate.responds(to: #selector(UITextFieldDelegate.textFieldShouldBeginEditing(_:))) {
+        return delegate.textFieldShouldBeginEditing!(textField)
       }
     }
     return true;
@@ -110,9 +125,9 @@ public class JPGInput: UIView , UITextFieldDelegate {
   }
   
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    if let del = self.delegate {
-      if del.responds(to: #selector(UITextFieldDelegate.textFieldShouldEndEditing(_:))) {
-        return del.textFieldShouldEndEditing!(textField)
+    if let delegate = self.delegate {
+      if delegate.responds(to: #selector(UITextFieldDelegate.textFieldShouldEndEditing(_:))) {
+        return delegate.textFieldShouldEndEditing!(textField)
       }
     }
     return true;
@@ -127,35 +142,38 @@ public class JPGInput: UIView , UITextFieldDelegate {
   }
   
   public func textFieldShouldClear(_ textField: UITextField) -> Bool {
-    if let del = self.delegate {
-      if del.responds(to: #selector(UITextFieldDelegate.textFieldShouldClear(_:))) {
-        return del.textFieldShouldClear!(textField)
+    if let delegate = self.delegate {
+      if delegate.responds(to: #selector(UITextFieldDelegate.textFieldShouldClear(_:))) {
+        return delegate.textFieldShouldClear!(textField)
       }
     }
     return true
   }
   
   public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if let del = self.delegate {
-      if del.responds(to: #selector(UITextFieldDelegate.textFieldShouldReturn(_:))) {
-        return del.textFieldShouldReturn!(textField)
+    if let delegate = self.delegate {
+      if delegate.responds(to: #selector(UITextFieldDelegate.textFieldShouldReturn(_:))) {
+        return delegate.textFieldShouldReturn!(textField)
       }
     }
     return true
   }
   
   public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    if let del = self.delegate {
+    if let delegate = self.delegate {
+      self.hasError = !delegate.textFieldIsValid(textField)
+      if delegate.responds(to: #selector(UITextFieldDelegate.textField(_:shouldChangeCharactersIn:replacementString:))) {
+        return delegate.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
+      }
       // We don't check for the selector here because textFieldIsValid is required
-      self.inputError = !del.textFieldIsValid(textField)
     }
+    print("nothin")
+    return true;
     
-    inputText = (inputText as NSString).replacingCharacters(in: range, with: string)
-    
-    inputLabelView.textColor = inputError ? UIColor.red : UIColor.black
+//    text = (text as NSString).replacingCharacters(in: range, with: string)
+//    
     
     // TODO: This needs to call the delegate methdo
-    return true;
   }
   
   func fadeOut(viewToFadeOut: UIView){
